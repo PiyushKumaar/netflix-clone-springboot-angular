@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,11 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                                     FilterChain filterChain) throws ServletException, IOException {
         String jwt = extractJwtToken(request);
         String username = jwtUtil.getUsernameFromToken(jwt);
-
         if(shouldProcessAuthentication(username)){
             processAuthentication(request,jwt,username);
         }
-
         filterChain.doFilter(request,response);
     }
 
@@ -69,11 +68,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                 .build();
     }
 
-    private void setAuthenticationInContext(HttpServletRequest request, UserDetails userDetails) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                userDetails , userDetails.getAuthorities());
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    private void setAuthenticationInContext(
+            HttpServletRequest request,
+            UserDetails userDetails
+    ) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails , userDetails.getAuthorities()
+                );
+
+        authenticationToken.setDetails(
+                new WebAuthenticationDetailsSource()
+                        .buildDetails(request));
+
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(authenticationToken);
     }
 
 }
