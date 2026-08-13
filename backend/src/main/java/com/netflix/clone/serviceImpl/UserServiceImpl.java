@@ -3,14 +3,19 @@ package com.netflix.clone.serviceImpl;
 import com.netflix.clone.dao.UserRepository;
 import com.netflix.clone.dto.request.UserRequest;
 import com.netflix.clone.dto.response.MessageResponse;
+import com.netflix.clone.dto.response.PageResponse;
+import com.netflix.clone.dto.response.UserResponse;
 import com.netflix.clone.entity.User;
 import com.netflix.clone.enums.Role;
 import com.netflix.clone.exceptions.EmailAlreadyExistException;
 import com.netflix.clone.exceptions.InvalidRoleException;
 import com.netflix.clone.service.EmailService;
 import com.netflix.clone.service.UserService;
+import com.netflix.clone.util.PaginationUtils;
 import com.netflix.clone.util.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +79,6 @@ public class UserServiceImpl implements UserService {
 
         user.setFullName(userRequest.getFullName());
         user.setRole(Role.valueOf(userRequest.getRole().toUpperCase()));
-        user.setActive(userRequest.getActive());
         userRepository.save(user);
 
         return new MessageResponse("User updated successfully");
@@ -88,4 +92,88 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+    @Override
+    public PageResponse<UserResponse> getUsers(int page, int size, String search) {
+
+        Pageable pageable = PaginationUtils.createPageRequest(page,size,"id");
+
+        Page<User> userPage;
+
+        if(search != null && !search.trim().isEmpty()){
+            userPage = userRepository.searchUsers(search.trim(),pageable);
+        }else {
+            userPage = userRepository.findAll(pageable);
+        }
+
+        return PaginationUtils.toPageResponse(userPage,UserResponse::fromEntity);
+    }
+
+    @Override
+    public MessageResponse deleteUser(Long id, String currentUserEmail) {
+
+        User user = serviceUtils.getUserByIdOrThrow(id);
+
+        if(user.getEmail().equals(currentUserEmail)){
+            throw new RuntimeException("You cannot delete your own account");
+        }
+
+        ensureNotLastAdmin(user,"delete");
+
+        userRepository.deleteById(id);
+        return new MessageResponse("User deleted successfully");
+
+    }
+
+    private void ensureNotLastAdmin(User user, String operation) {
+
+        if(user.getRole() == Role.ADMIN){
+            long adminCount = userRepository.countByRole(Role.ADMIN);
+            if(adminCount <=1){
+                throw new RuntimeException("Cannot "+operation+" the last admin user");
+            }
+        }
+
+    }
+
+    @Override
+    public MessageResponse toggleUserStatus(Long id, String currentUserEmail) {
+        User user = serviceUtils.getUserByIdOrThrow(id);
+
+        if (user.getEmail().equals(currentUserEmail)){
+            throw new RuntimeException("You cannot deactivate your own account");
+        }
+
+        ensureNotLastActiveAdmin(user);
+
+        user.setActive(!user.isActive());
+        userRepository.save(user);
+
+        return new MessageResponse("User status updated successfully");
+    }
+
+    @Override
+    public MessageResponse changeRole(UserRequest userRequest , Long id, String currentUserEmail) {
+        User user = serviceUtils.getUserByIdOrThrow(id);
+        validateRole(userRequest.getRole());
+
+        if(user.getEmail().equals(currentUserEmail)){
+            throw new RuntimeException("You cannot change your own Role");
+        }
+
+        Role newRole =  Role.valueOf(userRequest.getRole().toUpperCase());
+
+        if(user.getRole() == Role.ADMIN && newRole == Role.USER){
+            ensureNotLastAdmin(user,"change the role of");
+        }
+
+        user.setRole(newRole);
+
+        userRepository.save(user);
+
+        return new MessageResponse("User role updated successfully");
+
+    }
+
+
 }
