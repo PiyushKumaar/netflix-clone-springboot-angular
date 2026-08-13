@@ -62,10 +62,10 @@ public class User {
     @Column
     private Instant verificationTokenExpiry;
 
-    @Column
-    private String passwordRestToken;
+    @Column(name = "password_reset_token")
+    private String passwordResetToken;
 
-    @Column
+    @Column(name = "password_reset_token_expiry")
     private Instant passwordResetTokenExpiry;
 
     @CreationTimestamp
