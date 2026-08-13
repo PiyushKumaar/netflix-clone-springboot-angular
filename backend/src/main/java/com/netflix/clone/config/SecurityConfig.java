@@ -31,6 +31,7 @@ public class SecurityConfig {
             "/api/auth/reset-password",
     };
 
+    @Bean
     public PasswordEncoder passwordEncoder(){
         return NoOpPasswordEncoder.getInstance();
     }
