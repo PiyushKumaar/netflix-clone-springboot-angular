@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VIdeoStatsResponse {
+public class VideoStatsResponse {
 
-    private long totalViews;
+    private long totalVideos;
     private long publishedVideos;
     private long totalDuration;
 }
