@@ -9,7 +9,9 @@ import com.netflix.clone.entity.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface  UserRepository extends JpaRepository<User, Long> {
 
@@ -28,4 +30,7 @@ public interface  UserRepository extends JpaRepository<User, Long> {
     Page<User> searchUsers(@Param("search") String search, Pageable pageable);
 
     long countByRole(Role role);
+
+    @Query("select v.id from User u join u.watchList v where u.email = :email and v.id in :videoIds")
+    Set<Long> findWatchListVideoIds(@Param("email") String email,@Param("videoIds") List<Long> videoIds);
 }
