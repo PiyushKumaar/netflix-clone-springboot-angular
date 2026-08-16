@@ -1,0 +1,49 @@
+<div class="landing-container">
+    <div class="bg"></div>
+
+    <mat-toolbar class="topbar" color="transparent">
+        <div class="logo">
+            <mat-icon class="logo-icon">movie</mat-icon>
+            <span class="logo-text">CinemaFlix</span>
+        </div>
+
+        <span class="spacer"></span>
+
+        <button mat-flat-button class="signin-btn" (click)="login()">Sign in</button>
+    </mat-toolbar>
+
+    <section class="hero">
+        <h1 class="hero-title">
+            Unlimited movies,Tv <br class="br-md"> shows and more
+        </h1>
+
+        <p class="hero-caption">
+            Ready to watch? Enter your email to get started.
+        </p>
+
+        <form [formGroup]="LandingForm" class="cta" (ngSubmit)="getStarted()" novalidate>    
+            <mat-form-field appearance="outline" class="email-field">
+                <mat-label>Email address</mat-label>
+                <input matInput formControlName="email">
+                <mat-icon matPrefix>email </mat-icon>
+
+                @if(LandingForm.get('email')?.hasError('required')){
+                <mat-error>
+                    Email is required
+                </mat-error>
+                }
+
+                @if(LandingForm.get('email')?.hasError('email')) {
+                    <mat-error>
+                        Enter a valid email
+                    </mat-error>
+                }
+            </mat-form-field>
+            <button mat-flat-button class="cta-btn" type="submit" [disabled]="!LandingForm.valid">
+                Get started
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </form>
+    </section>
+    
+</div>
