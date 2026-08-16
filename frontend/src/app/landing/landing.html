@@ -44,6 +44,58 @@
                 <mat-icon>arrow_forward</mat-icon>
             </button>
         </form>
-    </section>
-    
+    </section>  
 </div>
+
+<section class="reasons-wrap">
+    <h2 class="row-title">More reasons to join</h2>
+
+    <div class="reason-grid">
+        @for (r of reasons; track $index) {
+            <mat-card class="reason-card">
+                <h3>{{r.title}}</h3>
+                <h3>{{r.text}}</h3>
+                <div class="badge">
+                    <mat-icon>{{r.icon}}</mat-icon>
+                </div>
+            </mat-card>
+        }
+    </div>
+</section>
+
+<section class="faq">
+    <h2 class="faq-title">Frequency Asked Questions</h2>
+    <mat-accordion class="faq-accordion" multi>
+        @for (faq of faqs; track $index) {
+            <mat-expansion-panel [hideToggle]="true" #panel="matExpansionPanel" class="faq-item">
+                <mat-expansion-panel-header>
+                    <span class="question">{{faq.question}}</span>
+                    <span class="spacer"></span>
+                    @if (!panel.expanded){
+                        <mat-icon class="toggle-icon">add</mat-icon>
+                    }
+                    @if (panel.expanded){
+                        <mat-icon class="toggle-icon">close</mat-icon>
+                    }
+                </mat-expansion-panel-header>
+                <div class="answer">
+                    {{faq.answer}}
+                </div>
+            </mat-expansion-panel>
+        }
+    </mat-accordion>
+</section>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <span>{{year}} CinemaFlix. All rights reserved.</span>
+    
+    <nav class="footer-links">
+        <a href="#">Help</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+    </nav>
+    </div>
+</footer>
+
+
