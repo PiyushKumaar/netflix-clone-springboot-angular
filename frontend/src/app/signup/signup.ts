@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../shared/services/auth-service';
+import { AuthService } from '../services/auth-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { NotificationService } from '../shared/services/notification-service';
-import { ErrorHandlerService } from '../shared/services/error-handler-service';
+import { NotificationService } from '../services/notification-service';
+import { ErrorHandlerService } from '../services/error-handler-service';
 import { SharedModule } from '../shared/shared-module';
 
 @Component({

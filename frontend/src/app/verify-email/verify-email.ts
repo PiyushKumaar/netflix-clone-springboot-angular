@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { AuthService } from '../shared/services/auth-service';
+import { AuthService } from '../services/auth-service';
 import { SharedModule } from '../shared/shared-module';
 
 @Component({
@@ -42,13 +42,6 @@ export class VerifyEmail implements OnInit {
         this.success = false;
         this.message = err.error?.error ||'Verification failed. The link may have expired or is invalid.'
         this.cdr.detectChanges();
-        // this.message =
-        //   err.error?.message ||
-        //   err.error?.error ||
-        //   err.message ||
-        //   'Verification failed. The link may have expired or is invalid.';
-
-        // console.error('Verification HTTP Error:', err);
       }
     })
   }
