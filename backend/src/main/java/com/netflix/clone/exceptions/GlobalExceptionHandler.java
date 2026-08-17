@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<Map<String,Object>> handleInvalidToken(InvalidTokenException ex){
         log.warn("BadCredentialsException : {}",ex.getMessage(),ex);
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)

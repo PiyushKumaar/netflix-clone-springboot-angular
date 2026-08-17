@@ -18,7 +18,7 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${app.frontend.url:http://localgost:4200")
+    @Value("${app.frontend.url:http://localhost:4200")
     private String frontendUrl;
 
     @Value("${spring.mail.username}")
