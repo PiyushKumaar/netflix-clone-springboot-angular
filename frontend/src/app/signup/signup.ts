@@ -35,7 +35,10 @@ export class Signup implements OnInit{
   }
 
   ngOnInit(): void {
-    //toDO
+    
+    if(this.authService.isLoggedIn()){
+      this.authService.redirectBasedOnRole();
+    }
 
     const email = this.route.snapshot.queryParams['email'];
     if(email){
