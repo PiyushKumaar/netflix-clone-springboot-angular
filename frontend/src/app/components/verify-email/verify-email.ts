@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { AuthService } from '../services/auth-service';
-import { SharedModule } from '../shared/shared-module';
+import { AuthService } from '../../services/auth-service';
+import { SharedModule } from '../../shared/shared-module';
 
 @Component({
   selector: 'app-verify-email',

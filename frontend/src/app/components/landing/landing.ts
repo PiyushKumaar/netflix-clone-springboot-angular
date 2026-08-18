@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../shared/shared-module';
+import { SharedModule } from '../../shared/shared-module';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { email } from '@angular/forms/signals';
-import { NgIf, NgForOf } from "../../../node_modules/@angular/common/types/_common_module-chunk";
+import { NgIf, NgForOf } from "../../../../node_modules/@angular/common/types/_common_module-chunk";
 
 @Component({
   selector: 'app-landing',
