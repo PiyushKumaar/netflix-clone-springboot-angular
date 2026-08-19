@@ -22,6 +22,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ChangePasswordDialog } from './commonComp/change-password-dialog/change-password-dialog';
+import { ConfirmDialog } from './commonComp/confirm-dialog/confirm-dialog';
 
 const MATERIAL_MODULES = [
   MatIconModule,
@@ -51,10 +53,14 @@ const MATERIAL_MODULES = [
   declarations: [],
   imports: [
     CommonModule,
-    ...MATERIAL_MODULES
+    ...MATERIAL_MODULES,
+    ConfirmDialog,
+    ChangePasswordDialog
     ],
   exports:[
-    ...MATERIAL_MODULES
+    ...MATERIAL_MODULES,
+    ConfirmDialog,
+    ChangePasswordDialog
   ]
 })
 export class SharedModule {}
