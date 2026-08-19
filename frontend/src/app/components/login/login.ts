@@ -67,7 +67,6 @@ export class Login implements OnInit {
       }
     })
   }
-
   resendVerification(){
     if(!this.userEmail){
       this.notification.error("Please enter your email address");
