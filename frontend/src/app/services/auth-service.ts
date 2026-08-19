@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../environments/environment.development';
 import { BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
