@@ -90,20 +90,19 @@ export class AuthService {
   }
 
   initializeAuth() : Promise<void>{
-
     return new Promise((resolve)=>{
       if(!this.isLoggedIn()){
-        this.handleAuthSuccess(null);
+        this.setCurrentUser(null);
         resolve();
         return;
       }
       this.fetchCurrentUser().subscribe({
         next:(user)=>{
-          this.handleAuthSuccess(user);
+          this.setCurrentUser(user);
           resolve();
         },
         error:()=>{
-          this.handleAuthSuccess(null);
+          this.setCurrentUser(null);
           resolve();
         }
       })
@@ -118,5 +117,9 @@ export class AuthService {
     localStorage.removeItem('token');
     this.currentUserSubject.next(null);
     this.router.navigate(['/']);
+  }
+
+  changePassword(changePasswordData :any){
+    return this.http.post(this.apiUrl+'/change-password',changePasswordData);
   }
 }
