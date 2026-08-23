@@ -74,6 +74,7 @@ public class VideoServiceImpl implements VideoService {
         video.setDuration(videoRequest.getDuration());
         video.setSrcUuid(videoRequest.getSrc());
         video.setPosterUuid(videoRequest.getPoster());
+        video.setPublished(videoRequest.isPublished());
         video.setCategories(videoRequest.getCategories() != null ? videoRequest.getCategories() : List.of());
         videoRepository.save(video);
         return new MessageResponse("Video updated successfully");
