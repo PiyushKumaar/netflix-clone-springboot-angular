@@ -28,11 +28,6 @@ export class App {
           url.startsWith('/my-favourites') ||
           url.startsWith('/admin')
         );
-        console.log(
-          'SHOW HEADER:',
-          this.showHeader()
-        );
-
       });
   }
 }
