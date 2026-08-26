@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.netflix.clone.entity.Video;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,4 +38,8 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
 
     @Query("select v from Video v where v.published = true order by function('rand')")
     List<Video> findRandomPublishedVideos(Pageable pageable);
+
+    @Modifying
+    @Query(value = "DELETE FROM user_watch_list WHERE video_id = :videoId", nativeQuery = true)
+    void removeFromAllWatchLists(@Param("videoId") Long videoId);
 }

@@ -36,7 +36,7 @@ export class VideoService {
   }
 
   setPublishedByAdmin(id:string | number, published : boolean){
-    return this.http.patch(this.apiUrlAdmin + '/'+id+'/publish?value='+published,{});
+    return this.http.patch(this.apiUrlAdmin + '/'+id+'/publish?status='+published,{});
   }
 
   getStatsByAdmin(){

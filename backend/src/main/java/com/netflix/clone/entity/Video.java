@@ -86,7 +86,7 @@ public class Video {
     public String getPoster(){
         if(posterUuid != null && !posterUuid.isEmpty()){
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
-            return baseUrl + "/api/files/image" + posterUuid;
+            return baseUrl + "/api/files/image/" + posterUuid;
         }
         return null;
     }

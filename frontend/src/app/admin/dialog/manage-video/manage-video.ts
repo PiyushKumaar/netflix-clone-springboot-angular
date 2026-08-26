@@ -71,28 +71,35 @@ export class ManageVideo {
 
   ngOnInit(): void {
     if (this.isEditMode) {
-      const video = this.data.video;
+      // Deferred to a fresh macrotask so populating the form/preview state
+      // never collides with the dialog's initial change-detection pass
+      // (this was the source of the NG0100 error at manage-video.html:199).
+      setTimeout(() => {
+        const video = this.data.video;
 
-      this.videoForm.patchValue({
-        title: video.title,
-        description: video.description,
-        year: video.year,
-        rating: video.rating,
-        categories: video.categories || [],
-        duration: video.duration,
-        src: this.extractUuidFromUrl(video.src),
-        poster: this.extractUuidFromUrl(video.poster),
+        this.videoForm.patchValue({
+          title: video.title,
+          description: video.description,
+          year: video.year,
+          rating: video.rating,
+          categories: video.categories || [],
+          duration: video.duration,
+          src: this.extractUuidFromUrl(video.src),
+          poster: this.extractUuidFromUrl(video.poster),
+        });
+
+        const srcUuid = this.videoForm.get('src')?.value;
+        const posterUuid = this.videoForm.get('poster')?.value;
+
+        if (srcUuid) {
+          this.videoPreviewUrl = this.mediaService.getMediaUrl(srcUuid, 'video');
+        }
+        if (posterUuid) {
+          this.posterPreviewUrl = this.mediaService.getMediaUrl(posterUuid, 'image');
+        }
+
+        this.cdr.markForCheck();
       });
-
-      const srcUuid = this.videoForm.get('src')?.value;
-      const posterUuid = this.videoForm.get('poster')?.value;
-
-      if (srcUuid) {
-        this.videoPreviewUrl = this.mediaService.getMediaUrl(srcUuid, 'video');
-      }
-      if (posterUuid) {
-        this.posterPreviewUrl = this.mediaService.getMediaUrl(posterUuid, 'image');
-      }
     }
   }
 
@@ -177,6 +184,7 @@ export class ManageVideo {
     const reader = new FileReader();
     reader.onload = (e) => {
       this.posterPreviewUrl = e.target?.result as string;
+      this.cdr.markForCheck();
     };
     reader.readAsDataURL(file);
 

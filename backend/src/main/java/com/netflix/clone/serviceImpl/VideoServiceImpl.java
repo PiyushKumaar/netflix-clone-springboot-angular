@@ -1,5 +1,15 @@
 package com.netflix.clone.serviceImpl;
 
+import java.util.List;
+import java.util.Set;
+
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.netflix.clone.dao.UserRepository;
 import com.netflix.clone.dao.VideoRepository;
 import com.netflix.clone.dto.request.VideoRequest;
@@ -11,16 +21,6 @@ import com.netflix.clone.entity.Video;
 import com.netflix.clone.service.VideoService;
 import com.netflix.clone.util.PaginationUtils;
 import com.netflix.clone.util.ServiceUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -40,7 +40,7 @@ public class VideoServiceImpl implements VideoService {
         video.setTitle(videoRequest.getTitle());
         video.setDescription(videoRequest.getDescription());
         video.setSrcUuid(videoRequest.getSrc());
-        video.setPosterUuid(video.getPoster());
+        video.setPosterUuid(videoRequest.getPoster());
         video.setYear(videoRequest.getYear());
         video.setRating(videoRequest.getRating());
         video.setPublished(videoRequest.isPublished());
@@ -81,11 +81,15 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    @Transactional
     public MessageResponse deleteVideoByAdmin(Long id) {
         if (!videoRepository.existsById(id)) {
             throw new IllegalArgumentException("Video not found with id: " + id);
         }
-        videoRepository.deleteById(id);
+
+        videoRepository.removeFromAllWatchLists(id); // clear join table rows first
+        videoRepository.deleteById(id);              // Hibernate cascades video_categories automatically
+
         return new MessageResponse("Video deleted successfully");
     }
 
