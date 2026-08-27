@@ -39,7 +39,7 @@ export class UserService {
   }
 
   toggleUserStatus(id:number){
-    return this.http.put(this.apiUrl + '/' + id + '/' + '/toggle-status',{});
+    return this.http.put(this.apiUrl + '/' + id + '/toggle-status',{});
   }
 
   changeUserRole(id:number, role:string){
