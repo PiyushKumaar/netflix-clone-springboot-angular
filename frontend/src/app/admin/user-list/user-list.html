@@ -22,6 +22,7 @@
             type="text"
             class="search-input"
             placeholder="Search by name or email..."
+            [value]="searchQuery()"
             (input)="onSearchChange($event)"
             >
             @if(searchQuery()){
@@ -55,7 +56,7 @@
 
     @if(!loading() && !error() && pagedinatedUsers().length >0){
         <div class="users-grid">
-            @for (user of pagedinatedUsers(); track user) {
+            @for (user of pagedinatedUsers(); track user.id) {
                 <div class="user-card" [class.current-user]="isCurrentUser(user)">
                     <div class="user-card-header">
                         <div class="user-avatar">
