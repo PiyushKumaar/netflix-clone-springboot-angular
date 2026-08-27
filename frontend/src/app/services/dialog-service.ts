@@ -56,7 +56,7 @@ export class DialogService {
 
   openManageUserDialog(mode:'create' | 'edit',user?:any) : MatDialogRef<ManageUser>{
     return this.dialog.open(ManageUser,{
-      ...DIALOG_CONFIG.MANAGER_USER,
+      ...DIALOG_CONFIG.MANAGE_USER,
       data : {mode,user}
     })
   }

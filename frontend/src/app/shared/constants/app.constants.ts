@@ -46,7 +46,7 @@ export const DIALOG_CONFIG = {
         hasBackdrop:true,
         disableclass:false
     },
-    MANAGER_USER:{
+    MANAGE_USER:{
         width:'600px',
         maxWidth:'90vw',
         panelClass:'user-dialog',
