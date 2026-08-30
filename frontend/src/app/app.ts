@@ -25,7 +25,7 @@ export class App {
 
         this.showHeader.set(
           url.startsWith('/home') ||
-          url.startsWith('/my-favourites') ||
+          url.startsWith('/my-favorites') ||
           url.startsWith('/admin')
         );
       });
