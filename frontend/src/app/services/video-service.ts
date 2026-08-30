@@ -56,6 +56,6 @@ export class VideoService {
   }
 
   getFeaturedVideos(){
-    return this.http.get(this.apiUrl + 'featured');
+    return this.http.get(this.apiUrl + '/featured');
   }
 }
