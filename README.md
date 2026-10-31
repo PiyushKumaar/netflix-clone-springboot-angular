@@ -62,19 +62,19 @@ NetFlix Clone is a **full‑stack video streaming platform** built with **Spring
 ## 🏗️ Architecture
 ```mermaid
 flowchart TD
-    subgraph Frontend[Angular SPA]
-        FE[UI Components]
-        FE -->|REST Calls| BE
+    subgraph Frontend ["Angular SPA"]
+        FE["UI Components"]
+        FE -->|REST Calls| BE["REST Controllers"]
     end
-    subgraph Backend[Spring Boot]
-        BE[REST Controllers]
-        BE --> Service[Service Layer]
-        Service --> Repo[Repository (JPA)]
+    subgraph Backend ["Spring Boot"]
+        BE["REST Controllers"]
+        BE --> Service["Service Layer"]
+        Service --> Repo["Repository (JPA)"]
         Service --> FileSrv[FileUploadService]
-        FileSrv --> FS[Filesystem Storage]
-        Repo --> DB[(Database)]
+        FileSrv --> FS["Filesystem Storage"]
+        Repo --> DB["Database"]
     end
-    FE -->|JWT in Authorization header| Auth[Spring Security]
+    FE -->|JWT in Authorization header| Auth["Spring Security"]
     Auth --> JWT[JwtUtil]
     style Frontend fill:#f9f,stroke:#333,stroke-width:2px
     style Backend fill:#bbf,stroke:#333,stroke-width:2px
@@ -157,7 +157,7 @@ NetFlix clone/
    - (Optional) a relational DB; the default profile uses an embedded H2 database.
 2. **Clone the repository**
    ```bash
-   git clone <repo‑url>
+   git clone https://github.com/PiyushKumaar/netflix-clone-springboot-angular.git
    cd "NetFlix clone/backend"
    ```
 3. **Environment variables** – create a `.env` (or edit `application.properties`) with at least:
@@ -234,7 +234,7 @@ NetFlix clone/
 
 ## 👤 Author
 **Your Name** – Full‑stack developer  
-[GitHub](https://github.com/yourusername) | [LinkedIn](https://linkedin.com/in/yourprofile)
+[GitHub](https://github.com/PiyushKumaar) | [LinkedIn](https://linkedin.com/in/piyushkumarrr)
 
 ---
 
